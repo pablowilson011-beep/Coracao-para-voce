@@ -3,93 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Um coração para você ❤️</title>
+<meta name="theme-color" content="#8f1235">
+<title>Uma cartinha para Yasmin ❤️</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: radial-gradient(circle, #35000f, #050505 75%);
-  color: white; font-family: Arial, sans-serif; min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; overflow: hidden; text-align: center;
-  padding: 18px;
-}
-h1 { color: #ff4164; font-size: clamp(22px, 5vw, 29px); margin-bottom: 12px; text-shadow: 0 0 15px #ff1744; }
-p { color: #f5cbd3; margin-bottom: 20px; font-size: 15px; }
-#heart { position: relative; width: min(90vw, 420px); height: min(90vw, 420px); flex: 0 0 auto; }
-.word {
-  position: absolute; transform: translate(-50%, -50%) scale(.3);
-  color: #ff5275; font-weight: bold; font-size: clamp(8px, 2.2vw, 11px);
-  text-shadow: 0 0 8px #ff1744; white-space: nowrap; opacity: 0;
-  transition: opacity .45s ease, transform .45s ease;
-}
-.word.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-button {
-  background: linear-gradient(45deg, #b00028, #ff4164); color: white;
-  border: none; padding: 16px 28px; border-radius: 30px; font-size: 16px;
-  font-weight: bold; cursor: pointer; box-shadow: 0 0 20px #ff1744; margin-top: 12px;
-}
-button:disabled { opacity: .8; cursor: default; }
-#final { color: #ff718c; font-size: 22px; margin-top: 18px; opacity: 0;
-  transition: opacity 2s; text-shadow: 0 0 15px #ff1744; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; overflow-x: hidden;
+    display: grid; place-items: center; padding: 28px 16px;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #fff7f4;
+    background: radial-gradient(circle at 50% 35%, #7d1837 0, #3a0b20 55%, #180611 100%);
+  }
+  .sparkles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .sparkles span {
+    position: absolute; bottom: -30px; color: #ffb7c8; opacity: .55;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    from { transform: translateY(0) rotate(0deg); opacity: 0; }
+    15% { opacity: .6; } to { transform: translateY(-110vh) rotate(35deg); opacity: 0; }
+  }
+  main { width: min(100%, 520px); text-align: center; position: relative; z-index: 1; }
+  h1 { font-weight: normal; font-size: clamp(1.7rem, 6vw, 2.35rem); margin: 0 0 10px; }
+  .subtitle { color: #ffd6df; margin: 0 0 30px; font-size: 1rem; }
+  .scene { height: 390px; display: grid; place-items: center; perspective: 1200px; }
+  .card {
+    position: relative; width: min(330px, 82vw); height: 230px;
+    transform-style: preserve-3d; transition: transform 1s ease;
+    filter: drop-shadow(0 18px 24px #10030a88);
+  }
+  .card.open { transform: translateY(58px); }
+  .inside {
+    position: absolute; inset: 0; border-radius: 8px;
+    background: linear-gradient(135deg, #fff4ec, #f6d9d6);
+    box-shadow: inset 0 0 0 1px #d9aeb0;
+  }
+  .inside:before {
+    content: ''; position: absolute; inset: 13px; border: 1px solid #e7b8b7;
+    border-radius: 4px;
+  }
+  .lid {
+    position: absolute; z-index: 5; inset: 0; transform-origin: top center;
+    transform: rotateX(0deg); transition: transform 1s ease;
+    backface-visibility: visible;
+    background: linear-gradient(145deg, #fff8f0, #f2d4d1);
+    clip-path: polygon(0 0, 100% 0, 50% 68%);
+    border-radius: 8px 8px 0 0;
+  }
+  .lid:after {
+    content: ''; position: absolute; left: 50%; top: 26px; transform: translateX(-50%) rotate(45deg);
+    width: 62px; height: 62px; background: #c51e4b;
+    clip-path: polygon(50% 15%, 61% 3%, 78% 3%, 92% 17%, 92% 34%, 50% 83%, 8% 34%, 8% 17%, 22% 3%, 39% 3%);
+    filter: drop-shadow(0 3px 2px #8b1635);
+  }
+  .card.open .lid { transform: rotateX(180deg); }
+  .front {
+    position: absolute; z-index: 4; inset: 0; border-radius: 8px;
+    background: linear-gradient(145deg, #fff7ef, #f4d9d5);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    display: grid; place-items: center; transition: opacity .45s ease .35s;
+  }
+  .front:before {
+    content: ''; position: absolute; inset: 12px; border: 1px solid #e5b7b4; border-radius: 4px;
+  }
+  .front-heart {
+    color: #c51e4b; font-size: 78px; line-height: 1;
+    text-shadow: 0 5px 0 #a9163d22; animation: heartbeat 1.5s infinite;
+  }
+  @keyframes heartbeat { 0%,100% { transform: scale(1); } 12% { transform: scale(1.12); } 24% { transform: scale(1); } 36% { transform: scale(1.08); } }
+  .front small { position: absolute; bottom: 22px; color: #8d3047; letter-spacing: 2px; font-size: 11px; }
+  .card.open .front { opacity: 0; pointer-events: none; }
+  .bouquet {
+    position: absolute; z-index: 3; left: 50%; bottom: 14px;
+    transform: translate(-50%, 55px) scale(.35); opacity: 0;
+    width: 220px; height: 205px; transition: all 1s ease .45s;
+  }
+  .card.open .bouquet { transform: translate(-50%, -28px) scale(1); opacity: 1; }
+  .flower { position: absolute; left: 50%; top: 5px; transform: translateX(-50%); width: 112px; height: 112px; }
+  .petal {
+    position: absolute; left: 39px; top: 2px; width: 34px; height: 58px;
+    border-radius: 50% 50% 45% 45%;
+    transform-origin: 17px 54px;
+    background: radial-gradient(circle at 50% 72%, #ff9aab, #d7194b 65%, #8d0d35);
+    box-shadow: 0 2px 5px #8e103b55;
+  }
+  .petal:nth-child(1) { transform: rotate(0deg); }
+  .petal:nth-child(2) { transform: rotate(45deg); }
+  .petal:nth-child(3) { transform: rotate(90deg); }
+  .petal:nth-child(4) { transform: rotate(135deg); }
+  .petal:nth-child(5) { transform: rotate(180deg); }
+  .petal:nth-child(6) { transform: rotate(225deg); }
+  .petal:nth-child(7) { transform: rotate(270deg); }
+  .petal:nth-child(8) { transform: rotate(315deg); }
+  .flower-center {
+    position: absolute; left: 42px; top: 42px; width: 28px; height: 28px;
+    border-radius: 50%; background: radial-gradient(circle, #ffe59b, #d58a26);
+    box-shadow: 0 0 13px #ffd66c;
+  }
+  .stem { position: absolute; left: 107px; top: 88px; width: 6px; height: 88px; background: linear-gradient(90deg,#27683e,#6da45c); border-radius: 10px; }
+  .leaf { position: absolute; top: 126px; left: 75px; width: 48px; height: 22px; background: #43834d; border-radius: 100% 0 100% 0; transform: rotate(18deg); }
+  .leaf.right { left: 108px; top: 145px; transform: rotate(195deg); }
+  .tiny-flower { position: absolute; color: #fff9e8; font-size: 24px; text-shadow: 0 1px 5px #d69b9b; }
+  .tiny-flower.one { left: 8px; top: 78px; } .tiny-flower.two { right: 5px; top: 92px; }
+  .name-heart {
+    position: absolute; z-index: 4; left: 50%; top: 112px; transform: translateX(-50%);
+    width: 174px; height: 145px; display: grid; place-items: center;
+    color: #fff4ed; font-family: cursive; font-size: 29px;
+    text-shadow: 0 2px 4px #7b102e;
+    background: #b91543;
+    clip-path: path("M87 139 C70 122 7 78 7 43 C7 1 57 -9 87 27 C117 -9 167 1 167 43 C167 78 104 122 87 139 Z");
+    filter: drop-shadow(0 5px 5px #7d173d66);
+  }
+  .card.open .name-heart { animation: pop .65s ease 1.05s both; }
+  @keyframes pop { from { opacity: 0; transform: translateX(-50%) scale(.4); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+  button {
+    border: 0; border-radius: 999px; padding: 14px 28px; margin-top: 5px;
+    background: linear-gradient(135deg, #ffb5c5, #f06b8b); color: #641329;
+    font-size: 1rem; font-weight: bold; cursor: pointer;
+    box-shadow: 0 7px 20px #09020855; transition: transform .2s;
+  }
+  button:hover { transform: translateY(-2px); }
+  .hint { color: #f5cbd5; font-size: .9rem; margin-top: 14px; }
+  @media (max-width: 380px) { .scene { height: 350px; } .card { height: 210px; } }
 </style>
 </head>
 <body>
-<h1>Um sentimento em 20 idiomas ❤️</h1>
-<p>Clique abaixo e descubra uma pequena surpresa...</p>
-<div id="heart" aria-label="Coração formado por palavras de amor"></div>
-<button id="start" type="button">Clique para revelar ❤️</button>
-<div id="final">Você é especial! ❤️</div>
+<div class="sparkles" aria-hidden="true">
+  <span style="left:8%;animation-duration:12s;font-size:20px">♥</span>
+  <span style="left:22%;animation-duration:16s;animation-delay:2s;font-size:13px">✦</span>
+  <span style="left:78%;animation-duration:14s;animation-delay:1s;font-size:18px">♥</span>
+  <span style="left:91%;animation-duration:17s;animation-delay:4s;font-size:14px">✦</span>
+  <span style="left:53%;animation-duration:19s;animation-delay:3s;font-size:12px">♥</span>
+</div>
+<main>
+  <h1>Uma cartinha para você ❤️</h1>
+  <p class="subtitle">Preparei uma surpresa especial...</p>
+  <div class="scene">
+    <div class="card" id="card">
+      <div class="inside"></div>
+      <div class="bouquet">
+        <div class="flower">
+          <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+          <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+          <i class="flower-center"></i>
+        </div>
+        <div class="stem"></div><div class="leaf"></div><div class="leaf right"></div>
+        <span class="tiny-flower one">✿</span><span class="tiny-flower two">✿</span>
+        <div class="name-heart">Yasmin<br>♡</div>
+      </div>
+      <div class="lid"></div>
+      <div class="front">
+        <div class="front-heart">♥</div>
+        <small>ABRA COM CARINHO</small>
+      </div>
+    </div>
+  </div>
+  <button id="openButton" type="button">Abrir cartinha 💌</button>
+  <p class="hint" id="hint">Toque no botão para abrir a surpresa.</p>
+</main>
 <script>
-const palavras = [
-  "Amor", "Love", "Amour", "Liebe", "Amore",
-  "Любовь", "愛", "사랑", "حب", "Amor",
-  "Liefde", "Kärlek", "Kærlighed", "Rakkaus",
-  "Dashuri", "Aşk", "Pyar", "प्रेम", "Cinta", "Agape"
-];
-
-const heart = document.getElementById("heart");
-const botao = document.getElementById("start");
-let iniciado = false;
-
-function formarCoracao() {
-  if (iniciado) return;
-  iniciado = true;
-  botao.disabled = true;
-  botao.textContent = "Formando nosso coração... ❤️";
-
-  const pontos = [];
-  for (let t = 0; t < Math.PI * 2; t += 0.025) {
-    const x = 16 * Math.pow(Math.sin(t), 3);
-    const y = 13 * Math.cos(t) - 5 * Math.cos(2*t)
-      - 2 * Math.cos(3*t) - Math.cos(4*t);
-    pontos.push({x, y});
-  }
-
-  const total = 180;
-  const escala = heart.clientWidth / 38;
-
-  for (let i = 0; i < total; i++) {
-    const ponto = pontos[Math.floor(i * pontos.length / total)];
-    const palavra = document.createElement("span");
-    palavra.className = "word";
-    palavra.textContent = palavras[i % palavras.length];
-
-    const x = heart.clientWidth / 2 + ponto.x * escala;
-    const y = heart.clientHeight / 2 - ponto.y * escala;
-    palavra.style.left = x + "px";
-    palavra.style.top = y + "px";
-    heart.appendChild(palavra);
-
-    setTimeout(() => palavra.classList.add("visible"), i * 35);
-  }
-
-  setTimeout(() => {
-    document.getElementById("final").style.opacity = "1";
-    botao.textContent = "Nosso coração está completo ❤️";
-  }, total * 35 + 700);
-}
-
-botao.addEventListener("click", formarCoracao);
+  const card = document.getElementById('card');
+  const button = document.getElementById('openButton');
+  const hint = document.getElementById('hint');
+  button.addEventListener('click', () => {
+    const isOpen = card.classList.toggle('open');
+    button.textContent = isOpen ? 'Fechar cartinha 💌' : 'Abrir cartinha 💌';
+    hint.textContent = isOpen ? 'Feita especialmente para você, Yasmin. ❤️' : 'Toque no botão para abrir a surpresa.';
+  });
 </script>
 </body>
 </html>
