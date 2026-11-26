@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Um coração para você ❤️</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: radial-gradient(circle, #35000f, #050505 75%);
+  color: white; font-family: Arial, sans-serif; min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; overflow: hidden; text-align: center;
+  padding: 18px;
+}
+h1 { color: #ff4164; font-size: clamp(22px, 5vw, 29px); margin-bottom: 12px; text-shadow: 0 0 15px #ff1744; }
+p { color: #f5cbd3; margin-bottom: 20px; font-size: 15px; }
+#heart { position: relative; width: min(90vw, 420px); height: min(90vw, 420px); flex: 0 0 auto; }
+.word {
+  position: absolute; transform: translate(-50%, -50%) scale(.3);
+  color: #ff5275; font-weight: bold; font-size: clamp(8px, 2.2vw, 11px);
+  text-shadow: 0 0 8px #ff1744; white-space: nowrap; opacity: 0;
+  transition: opacity .45s ease, transform .45s ease;
+}
+.word.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+button {
+  background: linear-gradient(45deg, #b00028, #ff4164); color: white;
+  border: none; padding: 16px 28px; border-radius: 30px; font-size: 16px;
+  font-weight: bold; cursor: pointer; box-shadow: 0 0 20px #ff1744; margin-top: 12px;
+}
+button:disabled { opacity: .8; cursor: default; }
+#final { color: #ff718c; font-size: 22px; margin-top: 18px; opacity: 0;
+  transition: opacity 2s; text-shadow: 0 0 15px #ff1744; }
+</style>
+</head>
+<body>
+<h1>Um sentimento em 20 idiomas ❤️</h1>
+<p>Clique abaixo e descubra uma pequena surpresa...</p>
+<div id="heart" aria-label="Coração formado por palavras de amor"></div>
+<button id="start" type="button">Clique para revelar ❤️</button>
+<div id="final">Você é especial! ❤️</div>
+<script>
+const palavras = [
+  "Amor", "Love", "Amour", "Liebe", "Amore",
+  "Любовь", "愛", "사랑", "حب", "Amor",
+  "Liefde", "Kärlek", "Kærlighed", "Rakkaus",
+  "Dashuri", "Aşk", "Pyar", "प्रेम", "Cinta", "Agape"
+];
+
+const heart = document.getElementById("heart");
+const botao = document.getElementById("start");
+let iniciado = false;
+
+function formarCoracao() {
+  if (iniciado) return;
+  iniciado = true;
+  botao.disabled = true;
+  botao.textContent = "Formando nosso coração... ❤️";
+
+  const pontos = [];
+  for (let t = 0; t < Math.PI * 2; t += 0.025) {
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2*t)
+      - 2 * Math.cos(3*t) - Math.cos(4*t);
+    pontos.push({x, y});
+  }
+
+  const total = 180;
+  const escala = heart.clientWidth / 38;
+
+  for (let i = 0; i < total; i++) {
+    const ponto = pontos[Math.floor(i * pontos.length / total)];
+    const palavra = document.createElement("span");
+    palavra.className = "word";
+    palavra.textContent = palavras[i % palavras.length];
+
+    const x = heart.clientWidth / 2 + ponto.x * escala;
+    const y = heart.clientHeight / 2 - ponto.y * escala;
+    palavra.style.left = x + "px";
+    palavra.style.top = y + "px";
+    heart.appendChild(palavra);
+
+    setTimeout(() => palavra.classList.add("visible"), i * 35);
+  }
+
+  setTimeout(() => {
+    document.getElementById("final").style.opacity = "1";
+    botao.textContent = "Nosso coração está completo ❤️";
+  }, total * 35 + 700);
+}
+
+botao.addEventListener("click", formarCoracao);
+</script>
+</body>
+</html>
